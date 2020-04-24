@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no">
+    <meta name="theme-color" content="#FFFFFF">
+    <meta name="description" content="東京都市大学 世田谷祭 QRラリー">
+    <title>景品交換</title>
+    <link rel="stylesheet" href="/common/common.css">
+    <link rel="stylesheet" href="/nav/nav.css">
+    <link rel="stylesheet" href="./style.css"><!--CSS優先順位-->
+</head>
+<body>
+
+    <header id="nav"></header>
+    
+    <article>
+        <div id="top">
+            <p id="title">景品交換</p>
+            <p>この画面を係員にご提示の上、ボタンを押してください</p>
+            <div id="pbox"><p id="point"></p><p id="ptext"> Points</p></div>
+        </div>
+        <div id="fbox">
+            <div id="giftbox">
+                <p>交換可能な景品</p>
+                <div id="gifts"></div>
+            </div>
+            <div id="buttonbox">
+                <p id="button" onclick="exchange(this)">景品交換する</p>
+                <p id="info"></p>
+            </div>
+        </div>
+    </article>
+
+    <script src="/common/common.js"></script>
+    <script src="/nav/nav.js"></script>
+    <script src="./script.js"></script>
+</body>
+</html>

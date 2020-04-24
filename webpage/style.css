@@ -1,0 +1,241 @@
+#homebtn{
+    display: none;  /*ここがホームなので*/
+}
+
+article{
+    z-index: 2; /*バグ対策*/
+}
+#progress{
+    z-index: 2; /*バグ対策*/
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#wavebox{
+    z-index: 2;
+    display: grid;
+    border-radius: 50%;
+    overflow: hidden;
+    background-color: white;
+}
+
+#wavetext{
+    z-index: 2;
+    grid-column: 1;
+    grid-row: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+#wave{
+    overflow: hidden;
+    z-index: 1;
+    grid-column: 1;
+    grid-row: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+#wavesvg{
+    position: absolute;
+    top: 100%;    /*進捗度波表示*/
+}
+
+#mission{
+    box-sizing: border-box;
+    width: 100%;
+    flex-grow: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem 0;
+    overflow: scroll;
+}
+
+.mbox{
+    box-sizing: border-box;
+    padding: 0 1rem;
+    width: 90%;
+    height: 3rem;
+    border-style: solid;
+    border-color: rgb(0,0,0,0.5);
+    border-width: 1px;
+    background-color: rgb(255, 235, 190);
+    border-radius: 0.5rem;
+    font-size: 1.1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 0.25rem;
+    order: 0;
+    flex-shrink: 0;
+    overflow: hidden;
+    white-space: nowrap;
+}
+.mbox p{
+    line-height: 1.1rem;
+}
+
+.mbox-contents{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+}
+#msuccess{
+    width: 90%;
+    align-items: left;
+    order: 1;
+}
+
+#event{
+    position: fixed;
+    transition: all 1s;
+    display: flex;
+    z-index: 4;
+}
+#event > p{
+    display: flex;
+    font-size: 1.3rem;
+    padding: 0.5rem;
+    background-color: rgb(255, 231, 250);
+    white-space: nowrap;
+    overflow: hidden;
+}
+#event_contents{
+    background-color: rgb(255, 231, 250);
+    padding: 1rem;
+    overflow: scroll;
+}
+.mbox.success{
+    order: 2;
+    pointer-events: none;
+}
+
+@media (orientation: portrait){
+    article{
+        flex-direction: column;
+        background: linear-gradient(180deg, rgb(138, 216, 255), 40%, rgb(235, 250, 255), 55%, white);
+    }
+    #progress{
+        width: 100%;
+        padding: 1rem 0;
+    }
+    #wavebox{
+        width: 30vh;
+        height: 30vh;
+    }
+    #wavetext{
+        font-size: 5vh;
+    }
+    #mission{
+        width: 100%;
+        padding-bottom: 2rem;
+    }
+    #event{
+        flex-direction: column;
+        align-items: center;
+        bottom:0;
+        width: 100%;
+        transform: translateY(50vh);
+    }
+    #event.active{
+        transform: translateY(0);
+    }
+    #event > p{
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 2rem;
+        box-shadow: 3px 3px 3px 1px rgba(0,0,0,0.3);
+        width: 70%;
+        padding: 1em;
+        border-radius: 0.5em 0.5em 0 0;
+    }
+    #event_contents{
+        width: 100%;
+        height: 50vh;
+    }
+}
+
+@media (orientation: landscape){
+    article{
+        flex-direction: row;
+        background: linear-gradient(90deg, rgb(138, 216, 255), 30%, rgb(235, 250, 255), 50%, white);
+    }
+    #progress{
+        height: 100%;
+        padding: 0 1.5rem;
+    }
+    #wavebox{
+        width:30vw;
+        height: 30vw;
+    }
+    #wavetext{
+        font-size: 5vw;
+    }
+    #mission{
+        height: 100%;
+        padding-right: 2rem;
+    }
+    #event{
+        right: 0;
+        height: 100%;
+        transform: translateX(50vw);
+    }
+    #event.active{
+        transform: translateX(0);
+    }
+    #event > p{
+        writing-mode: vertical-lr;
+        width: 2.5rem;
+        line-height: 1.4rem;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 3px 3px 3px 1px rgba(0,0,0,0.3);
+        height: 70%;
+        border-radius: 0.5em 0 0 0.5em;
+    }
+    #event_contents{
+        height: 100%;
+        width: 50vw;
+    }
+}
+
+
+@keyframes movewave{
+    0%{
+        transform: translateX(-90px);
+    }
+    100%{ 
+        transform: translateX(85px);
+    }
+}
+#waveart use{
+    animation: movewave 25s linear infinite;
+}
+#waveart #wave1{
+    animation-delay: -2s;
+    animation-duration: 5s;
+}
+#waveart #wave2{
+    animation-delay: -3s;
+    animation-duration: 7s;
+}
+#waveart #wave3{
+    animation-delay: -4s;
+    animation-duration: 10s;
+}
+#waveart #wave4{
+    animation-delay: -5s;
+    animation-duration: 15s;
+}

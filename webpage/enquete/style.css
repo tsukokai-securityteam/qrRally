@@ -1,0 +1,130 @@
+article{
+    flex-direction: column;
+    padding: 0.5rem 1rem 0 1rem;
+}
+article #title{
+    width: 100%;
+    font-size: 1.4rem;
+    padding: 0.5rem 0;
+    text-align: center;
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 0.5rem;
+}
+article #description{
+    width: 100%;
+    font-size: 1.2rem;
+    padding: 0.2rem 0;
+    text-align: center;
+    margin: 0.5rem 0;
+}
+article #contentsbox{
+    width: 100%;
+    padding: 0.5rem;
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 0.5rem;
+    overflow-y: scroll;
+}
+
+article #contentsbox .item{
+    margin-bottom: 0.5rem;
+}
+article #contentsbox .item p{
+    font-weight: bold;
+}
+
+article #contentsbox .item .choicebox{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+article #contentsbox .item .choicebox .choice{
+    width: calc(50% - 0.4em);
+    min-width: 5rem;
+    font-size: 1.2rem;
+    padding: 0.5rem;
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 0.5rem;
+    margin: 0.2em 0.2em;
+    text-align: center;
+    box-shadow: 2px 2px 2px 1px rgba(0,0,0,0.3);
+    transition: all 0.2s;
+}
+article #contentsbox .item .choicebox .choice.active{
+    background-color: rgb(255, 203, 203);
+    box-shadow: inset 1px 1px 1px 1px rgba(0,0,0,0.3);
+    transform: translate(2px, 2px);
+}
+article #contentsbox .item .choicebox .choice input{
+    display: none;
+}
+article #contentsbox .item textarea{
+    resize: none;
+    width: 100%;
+    height: 5rem;
+    padding: 0.1rem;
+}
+
+article #submit{
+    width: 80%;
+    font-size: 1.4rem;
+    padding: 0.2rem 0;
+    border-radius: 0.6rem;
+    margin: 0.5rem auto;  /*中央寄せ用*/
+    text-align: center;
+    background-color: rgb(131, 205, 255);
+    box-shadow: 2px 2px 2px 1px rgba(0,0,0,0.3);
+}
+
+#resultbox{
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: rgba(50, 50, 50, 0.2);
+    transform: translateY(100%);
+    transition: all 0.5s ease-in;
+}
+#resultbox.active{
+    transform: translateY(0%);
+}
+
+#resultbox > div{
+    width: 90%;
+    height: 90%;
+    transform: translate(5%, 5%);   /*中央寄せ用*/
+    padding: 1em;
+    border-radius: 1rem;
+    background-color: white;
+    box-shadow: 2px 2px 2px 1px rgba(0,0,0,0.3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+#result{
+    font-size: 2em;
+}
+#point{
+    display: inline;
+    font-size: 2em;
+}
+#ptext{
+    display: inline;
+}
+#ntext{
+    text-align: center;
+}
+#button{
+    width: 100%;
+    padding: 0.3rem 0;
+    border-radius: 0.3rem;
+    background-color: rgb(131, 205, 255);
+    text-align: center;
+}

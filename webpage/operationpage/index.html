@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no">
+    <meta name="theme-color" content="#FFFFFF">
+    <title>東京都市大学 世田谷祭 QRラリー</title>
+    <link rel="stylesheet" href="./style.css"><!--CSS優先順位-->
+</head>
+<body>
+    <article>
+        <div id="main">
+            <p>ユーザID</p>
+            <input type="text" id="userid" autocomplete="off" onkeypress="if(event.keyCode==13){event.returnValue=false;userdata()}">
+            <p onclick="userdata()" id="userbutton" class="button">照会</p>
+            <p id="point">ポイント: </p>
+            <p>交換可能な景品</p>
+            <p id="gift"></p>
+        </div>
+        <div id="sub">
+            <p>集計メニュー</p>
+            <p onclick="historycsv(this)" id="historybutton" class="button">行動履歴データを取得(CSV)</p>
+            <p onclick="total(this)" id="jsonbutton" class="button">回答集計データを取得(JSON)</p>
+            <p onclick="alldb(this)" id="dbbutton" class="button">DBデータを取得(JSON)</p>
+        </div>
+    </article>
+
+    <div id="loginform">
+        <div>
+            <p>ユーザ名</p>
+            <input type="text" id="username" autocomplete="off" onkeypress="if(event.keyCode==13){event.returnValue=false;login()}">
+            <p>パスワード</p>
+            <input type="password" id="password" onkeypress="if(event.keyCode==13){event.returnValue=false;login()}">
+            <p onclick="login()" id="loginbutton" class="button">ログイン</p>
+        </div>
+    </div>
+
+    <script src="/common/common.js"></script>
+    <script src="./script.js"></script>
+</body>
+</html>

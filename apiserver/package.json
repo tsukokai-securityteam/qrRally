@@ -1,0 +1,30 @@
+{
+  "name": "apiserver",
+  "version": "1.0.0",
+  "description": "Setagayasai QR-Rally API Server",
+  "main": "apiserver.js",
+  "scripts": {
+    "test": "sudo nodejs apiserver.js",
+    "start": "sudo pm2 start pm2_apiserver.yml",
+    "stop": "sudo pm2 stop pm2_apiserver.yml"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tsukokai-securityteam/qrRally.git"
+  },
+  "author": "tsukokai-securityteam",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tsukokai-securityteam/qrRally/issues"
+  },
+  "homepage": "https://github.com/tsukokai-securityteam/qrRally#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "crypto": "^1.0.1",
+    "express": "^4.17.1",
+    "fs": "0.0.1-security",
+    "https": "^1.0.0",
+    "mysql": "^2.18.1",
+    "spdy": "^4.0.2"
+  }
+}

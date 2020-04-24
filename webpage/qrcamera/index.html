@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no">
+    <meta name="theme-color" content="#000000">
+    <meta name="description" content="東京都市大学 世田谷祭 QRラリー">
+    <title>QRカメラ</title>
+    <link rel="stylesheet" href="/common/common.css">
+    <link rel="stylesheet" href="/nav/nav.css">
+    <link rel="stylesheet" href="./style.css"><!--CSS優先順位-->
+</head>
+<body>
+    
+    <header id="nav"></header>
+
+    <article>
+        <section id="camera">
+            <canvas id="cameracanvas"></canvas>
+        </section>
+        <section id="contents">
+            <p style="margin: 0.25em;">QRコードを映してください</p>
+            <a class="button" id="top_button" href="/">Topページへもどる</a>
+            <p class="button" id="popup_button" onclick="active(['popupbox'])">読み取れない場合</p>
+            <a class="button" id="license_button" href="./License.html">ライセンス</a>
+        </section>
+    </article>
+
+    <div id="popupbox">
+        <div id="popup">
+            <!--読み取れない場合-->
+            <p id="close" onclick="active(['popupbox'])">閉じる</a>
+            <p id="desc">QR下に表記されている文字を入力してボタンを押してください。</p>
+            <textarea id="textbox" rows="1" onkeypress="if(event.keyCode==13){event.returnValue=false;submit()}"></textarea>
+            <a class="button" id="submit_button" onclick="submit()">送信</a>
+        </div>
+    </div>
+    
+    <script src="/nav/nav.js"></script>
+    <script src="/common/common.js"></script>
+    <script src="./script.js"></script>
+    <script src="./jsQR.js"></script>
+</body>
+</html>

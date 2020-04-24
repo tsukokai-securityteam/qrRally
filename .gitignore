@@ -1,0 +1,9 @@
+.vscode
+apiserver/node_modules
+apiserver/total
+apiserver/.confcheck
+container_data/mysql
+container_data/letsencrypt
+container_data/nginxconf
+renew.sh
+container_data/srvscript/srvrenew.sh

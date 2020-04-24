@@ -1,0 +1,115 @@
+header{
+    background-color: rgb(238, 252, 255);
+}
+article{
+    background-color: rgb(238, 252, 255);
+}
+
+#camerabtn{
+    display: none;  /*ここがカメラページなので*/
+}
+
+#contents{
+    flex-grow: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.button{
+     
+    width: 80%;
+    padding: 0.3em 0;
+    margin: 0.5em;
+    border-radius: 0.5em;
+    text-align: center;
+    box-shadow: 2px 2px 2px 1px rgba(0,0,0,0.2);
+}
+#top_button{
+    background-color: rgb(255, 219, 164);
+}
+#popup_button{
+    background-color: rgb(203, 255, 252);
+}
+#license_button{
+    background-color: rgb(213, 255, 174);
+}
+
+#popupbox{
+    top: 0;
+    left: 0;
+    position: absolute;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    visibility: hidden;
+    
+}
+#popupbox.active{
+    visibility: visible;
+}
+#popup{
+    box-shadow: 2px 2px 2px 1px rgba(0,0,0,0.4);
+    width: 90%;
+    height: 90%;
+    background-color: white;
+    border-radius: 1em;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+#close{
+    align-self: flex-start;
+    width: 100%;
+    padding: 0.5em;
+    background-color: rgb(255, 219, 164);
+}
+#desc{
+    padding: 1em;
+}
+textarea{
+    resize: none;
+    height: 1.5rem;
+    line-height: 1.3rem;
+    width: 80%;
+}
+#submit_button{
+    box-shadow: 2px 2px 2px 1px rgba(0,0,0,0.3);
+    background-color: rgb(195, 225, 255);
+    width: 70%;
+    margin: 1em;
+}
+
+@media (orientation: portrait){
+    article{
+        flex-direction: column;
+    }
+    #camera{
+        width: 100%;
+    }
+    #cameracanvas{
+        width: 100%;
+    }
+}
+
+@media (orientation: landscape){
+    article{
+        flex-direction: row;
+    }
+    #camera{
+        height: 100%;
+    }
+    #cameracanvas{
+        height: 100%;
+    }
+    #contents{
+        justify-content: center;
+        transform: translateY(-1.5em);  /*見た目調整*/
+    }
+}

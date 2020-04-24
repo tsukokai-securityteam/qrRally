@@ -1,0 +1,16 @@
+article{
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    padding: 2rem;
+}
+
+article a{
+    background-color: rgb(255, 229, 174);
+    padding: 0.5rem;
+    border-radius: 0.7rem;
+    width: 100%;
+    text-align: center;
+    margin: 1rem;
+}

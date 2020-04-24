@@ -1,0 +1,4 @@
+name: apiserver
+script: apiserver.js
+instances: max
+exec_mode : cluster

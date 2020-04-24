@@ -1,0 +1,64 @@
+[
+    {
+        "qr": "tcu_Ichigokan",
+        "location": "一号館",
+        "group":"通信系A",
+        "contents_type": "enquete",
+        "point": 100,
+        "contents": {
+            "title": "志望大学アンケート",
+            "description": "現時点で志望している大学についてのアンケートです<br>ご回答よろしくお願いします。",
+            "enquete": [
+                {
+                    "type": "check",
+                    "question": "志望する大学を選んでください(複数回答可)",
+                    "choice": ["工学院大", "東京都市大", "東京電機大", "芝浦工業大"]
+                },
+                {
+                    "type": "radio",
+                    "question": "第一志望の学部を選んでください",
+                    "choice": ["工学部", "情報学部", "その他"]
+                },
+                {
+                    "type": "write",
+                    "question": "大学選びのポイントを自由に記述してください。"
+                }
+            ]
+        }
+    },
+    {
+        "qr": "tcu_Nigokan",
+        "location": "二号館",
+        "group":"通信系A",
+        "contents_type": "quiz",
+        "point_correct": 100,
+        "point_wrong": 50,
+        "answer": "東京都市大学",
+        "contents": {
+            "title": "大学名クイズ",
+            "question": "ここの大学の名前は何でしょう",
+            "choice": ["東京都市大学", "首都大学東京", "東大"]
+        }
+    },
+    {
+        "qr": "tcu_Sangokan",
+        "location": "三号館",
+        "group":"工学系A",
+        "contents_type": "vote",
+        "point": 100,
+        "limit_time": "2019/11/01 15:30:59",
+        "contents": {
+            "title": "投票",
+            "question": "このなかで一番よいと思うものに投票してください。<br>選択は一つです。",
+            "choice": ["企画A", "企画B", "企画C"]
+        }
+    },
+    {
+        "qr": "tcu_GiftPoint",
+        "location": "景品交換所",
+        "group":"運営設備",
+        "contents_type": "gift_exchange",
+        "point": 0,
+        "contents": {}
+    }
+]

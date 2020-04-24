@@ -1,0 +1,19 @@
+{
+  "mysql": {
+    "host": "localhost",
+    "port": "3306",
+    "user": "qruser",
+    "password": "apiserverDB@qruser",
+    "database": "qrdb",
+    "table": "userdata"
+  },
+  "certificate_file": {
+    "key": "",
+    "cert": "",
+    "ca": ""
+  },
+  "operation_account": {
+    "id": "setasai2019",
+    "auth_code": "a7B&L.rvq@fM*10"
+  }
+}

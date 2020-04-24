@@ -1,0 +1,110 @@
+html, body{
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+p{
+    margin: 0;
+}
+*{
+    box-sizing: border-box;
+}
+.button{
+    user-select: none;
+    border-radius: 0.5em;
+    text-align: center;
+    box-shadow: 2px 2px 2px 1px rgba(0,0,0,0.2);
+    padding: 0.2rem;
+    margin: 0.5rem 0;
+    background-color: rgb(204, 228, 255);
+}
+input{
+    width: 100%;
+}
+
+article{
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    display: flex;
+    padding: 0.5rem;
+}
+article > div{
+    width: 100%;
+    height: 100%;
+    padding: 0.5rem 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+#userbutton{
+    background-color: rgb(255, 235, 193);
+    margin: 0.5rem 0;
+}
+#point{
+    margin: 0.5rem 0;
+}
+#gift{
+    width: 100%;
+    border-style: solid;
+    border-width: 1px;
+    height: 100%;
+    overflow: scroll;
+    padding: 0.5rem;
+}
+#gift p{
+    line-height: 1.5rem;
+}
+
+#loginform{
+    z-index: 1;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    background-color: rgba(0,0,0,0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all, 1s;
+}
+#loginform.active{
+    transform: translateX(100%);
+}
+
+#loginform > div{
+    background-color: white;
+    padding: 2rem;
+}
+#loginform > div > input{
+    width: 100%;
+}
+#loginbutton{
+    padding: 0.3em 0;
+    margin: 0.5em;
+    background-color: rgb(255, 207, 117);
+    margin: 1rem;
+    padding: 0.5rem;
+}
+
+@media (orientation: portrait){
+    article{
+        flex-direction: column;
+    }
+    #loginform > div{
+        width: 90%;
+        height: 70%;
+    }
+}
+
+@media (orientation: landscape){
+    article{
+        flex-direction: row;
+    }
+    #loginform > div{
+        width: 70%;
+        height: 80%;
+    }
+}

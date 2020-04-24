@@ -1,0 +1,23 @@
+version: '3'
+services:
+  db:
+    image: mysql
+    container_name: qrserver
+    ports:
+      - "80:80"
+      - "443:443"
+      - "3306:3306"
+    volumes:
+      - ./container_data/dbconf:/etc/mysql/conf.d
+      - ./container_data/dbinit:/docker-entrypoint-initdb.d
+      - ./container_data/srvscript:/srvscript
+      - ./container_data/mysql:/var/lib/mysql
+      - ./container_data/letsencrypt:/etc/letsencrypt
+      - ./container_data/nginxconf:/nginxconf
+      - ./container_data/nginxconf_tmp:/nginxconf_tmp
+      - ./apiserver:/apiserver
+      - ./webpage:/webpage
+    environment:
+      MYSQL_ROOT_PASSWORD: apiserverDBroot@setagaya
+      TZ: Asia/Tokyo
+    working_dir: /apiserver

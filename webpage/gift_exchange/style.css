@@ -1,0 +1,70 @@
+article{
+    display: block;
+    padding: 0.5rem 1rem;
+    text-align: center;
+    overflow: scroll;
+}
+
+#top{
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 1rem;
+    width: 90%;
+    margin: 1rem auto;
+    padding: 0 1rem;
+}
+
+#title{
+    font-size: 2rem;
+    margin: 0.5rem;
+}
+
+#pbox{
+    margin: 1rem;
+}
+#pbox p{
+    display: inline;
+}
+#point{
+    font-size: 1.5rem;
+}
+
+#fbox{
+    display: flex;
+    justify-content: space-evenly;
+}
+#fbox > div{
+    flex-grow: 0;
+    width: 100%;
+}
+#giftbox > p{
+    font-size: 1.3rem;
+    font-weight: bold;
+}
+
+#buttonbox{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 1rem 0;
+}
+#button{
+    padding: 0.5rem;
+    background-color: rgb(180, 255, 230);
+    box-shadow: 2px 2px 2px 1px rgba(0,0,0,0.3);
+    border-radius: 0.5rem;
+}
+#info{
+    font-size: 1.2rem;
+    margin: 1rem 0;
+}
+@media (orientation: portrait){
+    #fbox{
+        flex-direction: column;
+    }
+}
+@media (orientation: landscape){
+    #fbox{
+        flex-direction: row;
+    }
+}

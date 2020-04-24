@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no">
+    <meta name="theme-color" content="#FFFFFF">
+    <meta name="description" content="東京都市大学 世田谷祭 QRラリー">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Expires" content="0"><!--開催中イベント情報即時更新用-->
+    <title>東京都市大学 世田谷祭 QRラリー</title>
+    <link rel="stylesheet" href="/common/common.css">
+    <link rel="stylesheet" href="/nav/nav.css">
+    <link rel="stylesheet" href="./style.css"><!--CSS優先順位-->
+</head>
+<body>
+
+    <header id="nav"></header>
+    
+    <article>
+        <section id="progress">
+            <a href="/mypage/">
+                <div id="wavebox">
+                    <div id="wavetext">取得中…</div>
+                    <div id="wave">
+                        <svg id="wavesvg" xmlns="http://www.w3.org/2000/svg" viewBox="0 24 150 300" preserveAspectRatio="none" shape-rendering="auto">
+                            <defs><path id="wavetmp" fill="rgb(0,190,255)" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v300h-352z" /></defs>
+                            <g id="waveart">
+                                <use id="wave1" xlink:href="#wavetmp" x="48" y="0" fill-opacity="0.7" />
+                                <use id="wave2" xlink:href="#wavetmp" x="48" y="3" fill-opacity="0.5"/>
+                                <use id="wave3" xlink:href="#wavetmp" x="48" y="5" fill-opacity="0.3" />
+                                <use id="wave4" xlink:href="#wavetmp" x="48" y="7" fill-opacity="0.6" />
+                            </g>
+                        </svg>
+                        <!-- xlink:href iOS11以前対策 -->
+                    </div>
+                </div>
+            </a>
+            <p style="margin-top:0.5em;">↑QRマイページはメーターをタップ↑</p>
+        </section>
+        
+
+        <section id="mission">
+            <a class="mbox" id="qr" href="/mypage">
+                <div class="mbox-contents">
+                    <p id="qrtext">読み込み中…</p>
+                </div>
+            </a>
+
+
+            <!-- ########## リンク追記エリア ここから ########## -->
+
+            <!-- ### 書き方 ###
+                <a class="mbox" onclick="linktap(this)" id="@@@ここにID@@@"" href="@@@ここにURL@@@">
+                    <div class="mbox-contents">
+                        @@@ここに表示内容@@@
+                    </div>
+                </a>
+            -->
+
+            <a class="mbox" onclick="linktap(this)" id="f_vote" href="">
+                <div class="mbox-contents">
+                    <p>後夜祭投票(メインステージ)<br><span style="font-size: 0.7em;">2019/11/3 18:30～18:40</span></p>
+                </div>
+            </a>
+            <a class="mbox" onclick="linktap(this)" id="enquete" href="">
+                <div class="mbox-contents">
+                    <p>アンケートに答えよう<br><span style="font-size: 0.7em;">お帰りの前にご協力ください</span></p>
+                </div>
+            </a>
+            <a class="mbox" onclick="linktap(this)" id="c_vote" href="">
+                <div class="mbox-contents">
+                    <p>キャラクター投票をする!</p>
+                </div>
+            </a>
+
+            <!-- ########## リンク追記エリア ここまで ########## -->
+
+
+            <div id="msuccess"><p>▼クリアしたミッション</p></div>
+        </section>
+
+        <section id="event">
+            <p onclick="active(['event'])">開催中イベント情報</p>
+            <div id="event_contents">
+                <!-- ########## イベント情報記述エリア ここから ########## -->
+                
+                <p style="text-align: center;font-size: 1.5rem;margin-bottom: 1rem;">〇〇開催!!</p>
+                <p>〇〇イベントを〇時から行います</p>
+
+                <!-- ########## イベント情報記述エリア ここまで ########## -->
+            </div>
+        </section>
+    </article>
+
+    <script src="/common/common.js"></script>
+    <script src="/nav/nav.js"></script>
+    <script src="./script.js"></script>
+</body>
+</html>

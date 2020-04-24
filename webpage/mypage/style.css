@@ -1,0 +1,213 @@
+article{
+    z-index: 2; /*バグ対策*/
+    overflow: hidden;
+}
+#progress{
+    z-index: 2; /*バグ対策*/
+    background-color: rgb(181, 246, 255);
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+#wavebox{
+    display: grid;
+    border-radius: 50%;
+    overflow: hidden;
+    background-color: white;
+}
+#wave{
+    overflow: hidden;
+    z-index: 1;
+    grid-column: 1;
+    grid-row: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+#wavesvg{
+    position: absolute;
+    top: 100%;    /*ここかえればOK. 100-50-5 で50%くらいのみため?*/
+}
+#wavetext{
+    grid-column: 1;
+    grid-row: 1;
+    z-index: 2;
+    font-size: 1.5rem;
+}
+#textwrap{
+    white-space: nowrap;
+}
+#textwrap p{
+    display: inline;
+}
+#pointtext{
+    font-size: 2rem;
+}
+
+#location{
+    display: flex;
+    background-color: rgb(255, 229, 180);
+    width: 100%;
+    height: 100%;
+}
+#location div{
+    padding: 0.5rem 1rem;
+    overflow-y: scroll;
+    width: 100%;
+     
+}
+#location p{
+    font-size: 1.3em;
+    white-space: nowrap;
+}
+
+#location ul{
+    list-style-position: inside;
+}
+#location ul li{
+    padding-left: 1em;
+    text-indent: -1em;
+    font-size: 1.2rem;
+     
+}
+#location ul li a{
+    color: rgb(255, 97, 24);
+}
+
+#suggest{
+    width: 100%;
+    height: 100%;
+}
+#suggest p:nth-child(1){
+    padding: 0.2rem 0;
+    text-indent: 1rem;
+    font-size: 1.3em;
+    width: 100%;
+}
+#suggest p{
+    padding: 0 1.5rem;
+}
+
+#giftbutton{
+    z-index: 11;
+    background-color: rgb(181, 246, 255);
+    padding: 0.5rem;
+    margin: auto;
+    text-align: center;
+    box-shadow: 2px 2px 2px 1px rgba(0,0,0,0.6);
+}
+
+#giftlistbox{
+    z-index: 10;
+    position: fixed;
+    width: 85%;
+    height: 85%;
+    background-color: white;
+    top:0;
+    left:0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    box-shadow: 2px 2px 2px 1px rgba(0,0,0,0.3);
+    border-radius: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: scroll;
+    transform: translateY(100vh);
+    transition: all 1s;
+}
+#giftlistbox.active{
+    transform: translateY(0);
+}
+#giftlistbox div{
+    margin: 0.5rem;
+}
+#giftlistbox div p{
+    font-weight: bold;
+    font-size: 1.5rem;
+    text-align: center;
+}
+#giftlistbox div p+p{
+    font-weight: normal;
+    font-size: 1.3rem;
+}
+
+@media (orientation: portrait){
+    article{
+        flex-direction: column;
+    }
+    #wavebox{
+        width: 15vh;
+        height: 15vh;
+    }
+    #progress{
+        flex-direction: row;
+        padding: 1em 0;
+    }
+    #location{
+        flex-direction: row;
+    }
+    #giftbutton{
+        width: 95%;
+        border-top-left-radius: 1rem;
+        border-top-right-radius: 1rem;
+    }
+}
+@media (orientation: landscape){
+    article{
+        flex-direction: row;
+    }
+    #wavebox{
+        width: 15vw;
+        height: 15vw;
+    }
+    #progress{
+        flex-direction: column;
+        padding: 0 1em;
+    }
+    #location{
+        flex-direction: column;
+        min-width: 10rem;
+    }
+    #giftbutton{
+        height: 95%;
+        writing-mode: vertical-lr;
+        border-top-left-radius: 1rem;
+        border-bottom-left-radius: 1rem;
+    }
+}
+
+
+@keyframes movewave{
+    0%{
+        transform: translateX(-90px);
+    }
+    100%{ 
+        transform: translateX(85px);
+    }
+}
+#waveart use{
+    animation: movewave 25s linear infinite;
+}
+#waveart #wave1{
+    animation-delay: -2s;
+    animation-duration: 5s;
+}
+#waveart #wave2{
+    animation-delay: -3s;
+    animation-duration: 7s;
+}
+#waveart #wave3{
+    animation-delay: -4s;
+    animation-duration: 10s;
+}
+#waveart #wave4{
+    animation-delay: -5s;
+    animation-duration: 15s;
+}
