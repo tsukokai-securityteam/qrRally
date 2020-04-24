@@ -534,7 +534,7 @@ app.post('/API/GetGift', (req, res)=>{
 app.post('/API/Operation/GetTotalList', (req, res)=>{
     let id = req.body['operationid'];
     let auth_code = req.body['operationcode'];
-    if(id == serverconf['operation_account']['id'] && auth_code == serverconf['operation_account']['auth_code']){
+    if(id == serverconf['operation_account']['id'] && verify(auth_code, serverconf['operation_account']['hash'], serverconf['operation_account']['solt']) == true){
         res.status(200).json(JSON.parse(JSON.stringify(fs.readdirSync("./total/").filter(val=>{
             if(val.indexOf(".json")>0){
                 return true;
@@ -555,7 +555,7 @@ app.post('/API/Operation/GetTotalData', (req, res)=>{
         if(err){
             res.status(400).json({"error":"file not found"});
         }else{
-            if(id == serverconf['operation_account']['id'] && auth_code == serverconf['operation_account']['auth_code']){
+            if(id == serverconf['operation_account']['id'] && verify(auth_code, serverconf['operation_account']['hash'], serverconf['operation_account']['solt']) == true){
                 res.status(200).json(JSON.parse(fs.readFileSync(`./total/${file}`, {encoding: 'utf-8'})));
             }else{
                 res.status(400).json({"error":"auth faild"});
@@ -569,7 +569,7 @@ app.post('/API/Operation/GetUserData', (req, res)=>{
     let id = req.body['operationid'];
     let auth_code = req.body['operationcode'];
     let userid = req.body['userid'];
-    if(id == serverconf['operation_account']['id'] && auth_code == serverconf['operation_account']['auth_code']){
+    if(id == serverconf['operation_account']['id'] && verify(auth_code, serverconf['operation_account']['hash'], serverconf['operation_account']['solt']) == true){
         squery("SELECT * FROM ?? WHERE id=?", [table, userid]).then(result=>{
             res.status(200).json(result);
         }).catch(ex=>{
@@ -586,7 +586,7 @@ app.post('/API/Operation/GetUserData', (req, res)=>{
 app.post('/API/Operation/GetAllData', (req, res)=>{
     let id = req.body['operationid'];
     let auth_code = req.body['operationcode'];
-    if(id == serverconf['operation_account']['id'] && auth_code == serverconf['operation_account']['auth_code']){
+    if(id == serverconf['operation_account']['id'] && verify(auth_code, serverconf['operation_account']['hash'], serverconf['operation_account']['solt']) == true){
         squery("SELECT * FROM ??", [table]).then(result=>{
             if(!Array.isArray(result)){
                 result = [result];
@@ -605,7 +605,7 @@ app.post('/API/Operation/GetConfig', (req, res)=>{
     let id = req.body['operationid'];
     let auth_code = req.body['operationcode'];
     let conf_type = req.body['conf_type'];
-    if(id == serverconf['operation_account']['id'] && auth_code == serverconf['operation_account']['auth_code']){
+    if(id == serverconf['operation_account']['id'] && verify(auth_code, serverconf['operation_account']['hash'], serverconf['operation_account']['solt']) == true){
         let resdata;
         if(conf_type == "qr"){
             resdata = qrconf;
@@ -624,7 +624,7 @@ app.post('/API/Operation/SetConfig', (req, res)=>{
     let auth_code = req.body['operationcode'];
     let conf_type = req.body['conf_type'];
     let conf_json = req.body['conf_json'];
-    if(id == serverconf['operation_account']['id'] && auth_code == serverconf['operation_account']['auth_code']){
+    if(id == serverconf['operation_account']['id'] && verify(auth_code, serverconf['operation_account']['hash'], serverconf['operation_account']['solt']) == true){
         let confpath;
         if(conf_type == "qr"){
             confpath = qrconfpath;
@@ -807,4 +807,15 @@ function getos(user_agent){
         os="Unknown"
     }
     return os;
+}
+
+/**@description パスワードハッシュ化 */
+function hash(password){
+    const solt = crypto.randomBytes(64);
+    const hash = crypto.scryptSync(password, solt, 64);
+    return {"hash":hash.toString("base64"),"solt":solt.toString("base64")}
+}
+/**@description パスワードハッシュ認証 */
+function verify(password, hash, solt){
+    return crypto.scryptSync(password, Buffer.from(solt, "base64"), 64).toString("base64") == hash;
 }
