@@ -66,6 +66,29 @@ rm server.json_tmp
 chown $own server.json
 chmod $per server.json
 
+
+echo "データ集計・確認、QRラリーの設定などを行うページのアカウントを作成します。"
+echo ""
+read -p "新規管理用アカウントID: " id
+while :
+do  
+    stty -echo
+    read -p "新規管理用アカウントPW: " pw1
+    echo ""
+    read -p "新規管理用アカウントPW(確認): " pw2
+    echo ""
+    stty echo
+    if [ ${pw1} != ${pw2} ]; then
+        echo "入力PWが一致しませんでした"
+    else
+        break
+    fi
+done
+cd /srvscript
+nodejs srvhashsetup.js ${id} ${pw1}
+unset id pw1 pw2
+
+
 echo "################################################################"
 echo "自動コンテナ作成を終了します。"
 echo "################################################################"
