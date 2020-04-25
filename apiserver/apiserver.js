@@ -8,11 +8,11 @@ const spdy = require('spdy');
 const app = express();
 
 //設定やQR定義は起動時に定数として扱うので変更時は再起動する。
-const severconfpath = "./config/server.json";
+const serverconfpath = "./config/server.json";
 const qrconfpath = "./config/qr.json";
 const giftconfpath = "./config/gift.json";
 const suggestconfpath = "./config/suggest.json";
-const serverconf = JSON.parse(fs.readFileSync(severconfpath, {encoding: 'utf8'}));
+const serverconf = JSON.parse(fs.readFileSync(serverconfpath, {encoding: 'utf8'}));
 const qrconf = JSON.parse(fs.readFileSync(qrconfpath, {encoding: 'utf8'}));
 const giftconf = JSON.parse(fs.readFileSync(giftconfpath, {encoding: 'utf8'}));
 const suggestconf = JSON.parse(fs.readFileSync(suggestconfpath, {encoding: 'utf8'}));
