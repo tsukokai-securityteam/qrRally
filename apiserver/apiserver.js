@@ -26,6 +26,9 @@ const connection = mysql.createConnection({
 });
 const table = serverconf['mysql']['table'];
 
+//base32用
+const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567";
+
 //consoe.logだとクラスタ化してもうまくやってくれてる(log4js代替)
 function log_info(msg){loging(`\u001b[34m[${now()}] [INFO]\u001b[0m ${msg}`);}
 function log_sql(msg){loging(`\u001b[36m[${now()}] [SQL]\u001b[0m ${msg}`);}
@@ -818,4 +821,47 @@ function hash(password){
 /**@description パスワードハッシュ認証 */
 function verify(password, hash, solt){
     return crypto.scryptSync(password, Buffer.from(solt, "base64"), 64).toString("base64") == hash;
+}
+/**@description 文字列をbase32にエンコ */
+function encord32(str){
+    let buf = Buffer.from(str);
+    //ビット列にする(8bit)
+    let bit = "";
+    buf.forEach(bf=>{
+        bit += bf.toString(2).padStart(8, '0');
+    });
+    //5ビットずつ分けて10進にし、charsに照らし合わせ(末尾padding)
+    let base32 = "";
+    for(let i=0; i<bit.length; i+=5){
+        base32 += chars[parseInt(bit.substr(i, 5).padEnd(5, '0'),2)];
+    }
+    return base32;
+}
+/**@description base32を文字列にデコード */
+function decord32(base32){
+    //base32一文字ずつ2進(5bit)にしてビット列に
+    let bit = "";
+    base32.split('').forEach(chr=>{
+        bit += chars.indexOf(chr).toString(2).padStart(5, '0');
+    });
+    //8ビットずつ分けて16進にしてバイト列に
+    let hex = ""
+    for(let i=0; i<bit.length; i+=8){
+        hex += parseInt(bit.substr(i, 8),2).toString(16);
+    }
+    //バイト列を文字列に
+    return Buffer.from(hex, 'hex').toString('utf8');
+}
+/**@description TOTPコード計算 */
+function totp(secret){
+    let key = Buffer.from(decord32(secret));
+    var epoch = Math.round(new Date().getTime() / 1000.0);
+    let time = Buffer.alloc(8);
+    time.writeUInt32BE(Math.floor(epoch / 30), 4);   // 8ByteのBufferのうち4ByteのUnix時間を右詰め) 2106年問題
+    let hmac = Buffer.from(crypto.createHmac("SHA1", key).update(time).digest('hex'), 'hex');
+    let offset = parseInt(hmac.slice(-1)[0].toString(2).slice(-4), 2); //hmac末尾4bitの数値をoffsetに
+    let otp = hmac.slice(offset, offset+4); //offsetByteから4Byteぬく
+    otp = parseInt(otp.toString('hex'),16) & 0x7fffffff; //最上位ビットを抜く
+    otp = otp % 1000000; //末尾6ケタ
+    return otp.toString();
 }

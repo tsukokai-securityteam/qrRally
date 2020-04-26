@@ -1,5 +1,5 @@
 .vscode
-apiserver/node_modules
+*node_modules/
 apiserver/total
 apiserver/.confcheck
 container_data/mysql

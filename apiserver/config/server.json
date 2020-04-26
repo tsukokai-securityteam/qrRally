@@ -15,6 +15,7 @@
   "operation_account": {
     "id": "",
     "hash": "",
-    "solt": ""
+    "solt": "",
+    "totp": ""
   }
 }
