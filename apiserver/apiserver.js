@@ -1,4 +1,5 @@
 const express = require('express');
+const session = require('express-session');
 const bodyParser = require('body-parser');
 const mysql = require('mysql');
 const crypto = require('crypto');
@@ -17,14 +18,22 @@ const qrconf = JSON.parse(fs.readFileSync(qrconfpath, {encoding: 'utf8'}));
 const giftconf = JSON.parse(fs.readFileSync(giftconfpath, {encoding: 'utf8'}));
 const suggestconf = JSON.parse(fs.readFileSync(suggestconfpath, {encoding: 'utf8'}));
 
-const connection = mysql.createConnection({
+const dbconf = {
     host: serverconf['mysql']['host'],
     user: serverconf['mysql']['user'],
     password: serverconf['mysql']['password'],
     port: serverconf['mysql']['port'],
-    database: serverconf['mysql']['database'],
-});
+    database: serverconf['mysql']['database']
+};
 const table = serverconf['mysql']['table'];
+
+let connection = mysql.createConnection(dbconf);
+connection.on('error', ex=>{
+    if(ex.code == "PROTOCOL_CONNECTION_LOST"){
+        log_info("Reconnect SQL Server");
+        connection = mysql.createConnection(dbconf);
+    }
+});
 
 //base32用
 const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567";
@@ -38,6 +47,19 @@ function log_fatal(msg){loging(`\u001b[35m[${now()}] [SERVER FATAL]\u001b[0m ${m
 function loging(msg){console.log(msg);}
 
 app.use(bodyParser.json());
+app.use(session({
+    secret: crypto.randomBytes(16).toString('base64').substring(0, 16),
+    resave: false,
+    saveUninitialized: false,
+    name: "session.cid",
+    cookie: {
+        httpOnly: true,
+        secure: true,
+        maxAge: null,
+        sameSite: 'strict'
+    }
+}));
+
 app.disable('x-powered-by');
 
 //Expressパース時エラー処理
@@ -448,7 +470,7 @@ app.post('/API/RecordGift', (req, res)=>{
             //交換可能
             userdata['exchanged_gifts'].push(giftname);
             squery("UPDATE ?? SET exchanged_gifts=? WHERE id=? AND auth_code=?;",[table, JSON.stringify(userdata['exchanged_gifts']), id, auth_code]).then(()=>{
-                res.status(200).json({"results": "ok"});
+                res.status(200).json({"result": "ok"});
             });
         }
     }).catch(ex=>{
@@ -532,6 +554,75 @@ app.post('/API/GetLocation', (req, res)=>{
 //#####景品一覧表示API#####
 app.post('/API/GetGift', (req, res)=>{
     res.status(200).json(giftconf.map(values=>{return {"giftname": values['giftname'], "point": values['point']};}));
+});
+
+//管理者ログイン用セッションID
+let srvtmp_sessionID = "";
+app.get('/API/Operation/NginxLogin', (req, res)=>{
+    //セッション情報のCookieからoperation_adminの確認とセッションIDの確認
+    if(req.session['operation_admin'] == serverconf['operation_account']['id'] && req.sessionID == srvtmp_sessionID){
+        res.status(200).send();
+    }else{
+        res.status(403).send();
+    }
+});
+app.post('/API/Operation/Login', (req, res)=>{
+    let id = req.body['id'];
+    let password = req.body['password'];
+    checkempty(id, password).then(()=>{
+        //通常認証
+        return new Promise((resolve, reject)=>{
+            if(id != serverconf['operation_account']['id'] || !verify(password, serverconf['operation_account']['hash'], serverconf['operation_account']['solt'])){
+                reject(new Error(".Auth failed"));
+            }else{
+                resolve();
+            }
+        });
+    }).then(()=>{
+        if(serverconf['operation_account']['secret']){
+            //TOTP設定されている場合は"TOTP"と送信
+            res.status(200).send("TOTP");
+        }else{
+            //TOTP設定なしならセッションに管理用認証
+            req.session['operation_admin'] = id;
+            srvtmp_sessionID = req.sessionID;
+            res.status(200).send("OK");
+        }
+    }).catch(ex=>{
+        autologger(res, ex, id, req.originalUrl);
+    });
+});
+app.post('/API/Operation/LoginTOTP', (req, res)=>{
+    let id = req.body['id'];
+    let password = req.body['password'];
+    let totpcode = req.body['totpcode'];
+
+    checkempty(id, password, totpcode).then(()=>{
+        //通常認証
+        return new Promise((resolve, reject)=>{
+            if(id != serverconf['operation_account']['id'] || !verify(password, serverconf['operation_account']['hash'], serverconf['operation_account']['solt'])){
+                reject(new Error(".Auth failed"));
+            }else{
+                resolve();
+            }
+        });
+    }).then(()=>{
+        //TOTP認証
+        return new Promise((resolve, reject)=>{
+            if(totpcode != totp(serverconf['operation_account']['secret'])){
+                reject(new Error(".TOTP failed"));
+            }else{
+                resolve();
+            }
+        });
+    }).then(()=>{
+        //TOTP認証出来たらセッションに管理用認証
+        req.session['operation_admin'] = id;
+        srvtmp_sessionID = req.sessionID;
+        res.status(200).send();
+    }).catch(ex=>{
+        autologger(res, ex, id, req.originalUrl);
+    });
 });
 
 app.post('/API/Operation/GetTotalList', (req, res)=>{
@@ -637,7 +728,7 @@ app.post('/API/Operation/SetConfig', (req, res)=>{
             confpath = suggestconfpath;
         }
         fs.writeFileSync(confpath, JSON.stringify(conf_json, null, 2));
-        res.status(200).json({"results": "ok"});
+        res.status(200).json({"result": "ok"});
     }else{
         res.status(400).json({"error":"auth faild"});
     }
@@ -864,4 +955,26 @@ function totp(secret){
     otp = parseInt(otp.toString('hex'),16) & 0x7fffffff; //最上位ビットを抜く
     otp = otp % 1000000; //末尾6ケタ
     return otp.toString();
+}
+
+/**@description 変数空チェック(Promise) */
+function checkempty(...vals){
+    return new Promise((resolve, reject)=>{
+        if(vals.every(val => val)){
+            return resolve();
+        }else{
+            return reject(new Error(".Invalid Parameter"));
+        }
+    });
+}
+
+/**@description APIログ振り分け */
+function autologger(res, ex, id, apiurl){
+    if(ex.message[0]=="."){
+        log_client(`${ex.message.slice(1)} (ID:${id} API:${apiurl.slice(apiurl.lastIndexOf('/')+1)})`);
+        res.status(400).send(ex.message.slice(1));
+    }else{
+        log_server(ex);
+        res.status(500).send("Server error");
+    }
 }

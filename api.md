@@ -130,7 +130,7 @@ config/gift.jsonに応じる
 ### Responce
 ```json
 {
-    "results": "ok"
+    "result": "ok"
 }
 ```
 ### Error Responce
