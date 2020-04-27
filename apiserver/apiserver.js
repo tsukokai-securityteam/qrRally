@@ -209,9 +209,9 @@ app.post('/API/RecordQR', (req, res)=>{
         new Promise((resolve, reject)=>{
             if(!id || !auth_code || !location){
                 res.status(400).json({"error":"invalid parameter"});
-                reject(new Error("invalid parameter"));
+                return reject(new Error("invalid parameter"));
             }else{
-                resolve();
+                return resolve();
             }
         }).then(()=>{
             return getuserdata(id, auth_code);  //認証失敗したときは「Error(auth faild)」を返す
@@ -269,9 +269,9 @@ app.post('/API/UniquePage', (req, res)=>{
     new Promise((resolve, reject)=>{
         if(!id || !auth_code || !location){
             res.status(400).json({"error":"invalid parameter"});
-            reject(new Error("invalid parameter"));
+            return reject(new Error("invalid parameter"));
         }else{
-            resolve();
+            return resolve();
         }
     }).then(()=>{
         return getuserdata(id, auth_code);  //認証失敗したときは「Error(auth faild)」を返す
@@ -450,9 +450,9 @@ app.post('/API/RecordGift', (req, res)=>{
     new Promise((resolve, reject)=>{
         if(!id || !auth_code || !giftname){
             res.status(400).json({"error":"invalid parameter"});
-            reject(new Error("invalid parameter"));
+            return reject(new Error("invalid parameter"));
         }else{
-            resolve();
+            return resolve();
         }
     }).then(()=>{
         return getuserdata(id, auth_code);  //認証失敗したときは「Error(auth faild)」を返す
@@ -493,9 +493,9 @@ app.post('/API/Suggest', (req, res)=>{
     new Promise((resolve, reject)=>{
         if(!id || !auth_code){
             res.status(400).json({"error":"invalid parameter"});
-            reject(new Error("invalid parameter"));
+            return reject(new Error("invalid parameter"));
         }else{
-            resolve();
+            return resolve();
         }
     }).then(()=>{
         return getuserdata(id, auth_code);
@@ -521,9 +521,9 @@ app.post('/API/GetData', (req, res)=>{
     new Promise((resolve, reject)=>{
         if(!id || !auth_code){
             res.status(400).json({"error":"invalid parameter"});
-            reject(new Error("invalid parameter"));
+            return reject(new Error("invalid parameter"));
         }else{
-            resolve();
+            return resolve();
         }
     }).then(()=>{
         return getuserdata(id, auth_code);
@@ -573,9 +573,9 @@ app.post('/API/Operation/Login', (req, res)=>{
         //通常認証
         return new Promise((resolve, reject)=>{
             if(id != serverconf['operation_account']['id'] || !verify(password, serverconf['operation_account']['hash'], serverconf['operation_account']['solt'])){
-                reject(new Error(".Auth failed"));
+                return reject(new Error(".Auth failed"));
             }else{
-                resolve();
+                return resolve();
             }
         });
     }).then(()=>{
@@ -601,18 +601,22 @@ app.post('/API/Operation/LoginTOTP', (req, res)=>{
         //通常認証
         return new Promise((resolve, reject)=>{
             if(id != serverconf['operation_account']['id'] || !verify(password, serverconf['operation_account']['hash'], serverconf['operation_account']['solt'])){
-                reject(new Error(".Auth failed"));
+                return reject(new Error(".Auth failed"));
             }else{
-                resolve();
+                return resolve();
             }
         });
     }).then(()=>{
         //TOTP認証
         return new Promise((resolve, reject)=>{
-            if(totpcode != totp(serverconf['operation_account']['secret'])){
-                reject(new Error(".TOTP failed"));
+            if(!serverconf['operation_account']['secret']){
+                return reject(new Error(".Invalid TOTP"));
             }else{
-                resolve();
+                if(totpcode != totp(serverconf['operation_account']['secret'])){
+                    return reject(new Error(".TOTP failed"));
+                }else{
+                    return resolve();
+                }
             }
         });
     }).then(()=>{
@@ -739,16 +743,16 @@ app.post('/API/Operation/SetConfig', (req, res)=>{
 function getuserdata(id, auth_code){
     return new Promise((resolve, reject)=>{
         squery("SELECT rally_data, exchanged_gifts, suggest_type FROM ?? WHERE id=? AND auth_code=?", [table, id, auth_code]).then(results=>{
-            resolve({
+            return resolve({
                 "rally_data": JSON.parse(results['rally_data']),
                 "exchanged_gifts": JSON.parse(results['exchanged_gifts']),
                 "suggest_type": results['suggest_type']
             });
         }).catch(ex=>{
             if(ex['message']=='not found'){
-                reject(new Error("auth faild"));
+                return reject(new Error("auth faild"));
             }else{
-                reject(ex);
+                return reject(ex);
             }
         });
     });
@@ -817,19 +821,19 @@ function squery(query, values=[]){
     return new Promise((resolve, reject)=>{
         let sq = connection.query(query, values, (err, results)=>{
             if(err){
-                reject(err);
+                return reject(err);
             }else{
                 log_sql(sq['sql']);
                 if(results.length==0){
-                    reject(new Error("not found"));
+                    return reject(new Error("not found"));
                 }else if(results.length==1){
                     if(Object.values(results[0]).length==1){
-                        resolve(Object.values(results[0])[0]);
+                        return resolve(Object.values(results[0])[0]);
                     }else{
-                        resolve(results[0]);
+                        return resolve(results[0]);
                     }
                 }else{
-                    resolve(results);
+                    return resolve(results);
                 }
             }
         });
@@ -840,9 +844,9 @@ function sbegin(){
     return new Promise((resolve, reject)=>{
         connection.beginTransaction(err=>{
             if(err){
-                reject(new Error("begin error"));
+                return reject(new Error("begin error"));
             }else{
-                resolve();
+                return resolve();
             }
         });
     });
@@ -851,9 +855,9 @@ function scommit(){
     return new Promise((resolve, reject)=>{
         connection.commit(err=>{
             if(err){
-                reject(new Error("commit error"));
+                return reject(new Error("commit error"));
             }else{
-                resolve();
+                return resolve();
             }
         });
     });
@@ -861,7 +865,7 @@ function scommit(){
 function srollback(){
     return new Promise((resolve, reject)=>{
         connection.rollback(()=>{
-            resolve();
+            return resolve();
         });
     });
 }
