@@ -16,7 +16,7 @@ read -p "(LetsEncrypt)ドメイン入力: " domain
 apt -y update
 apt -y upgrade
 apt -y install curl wget gnupg
-curl -sL https://deb.nodesource.com/setup_10.x | bash -
+curl -sL https://deb.nodesource.com/setup_12.x | bash -
 
 wget https://nginx.org/keys/nginx_signing.key
 apt-key add nginx_signing.key
