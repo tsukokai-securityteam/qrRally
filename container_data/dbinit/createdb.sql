@@ -1,6 +1,3 @@
-CREATE USER 'qruser'@'localhost' IDENTIFIED WITH mysql_native_password BY 'apiserverDB@qruser';
-GRANT ALL ON *.* TO 'qruser'@'localhost';
-
 CREATE DATABASE `qrdb`;
 USE `qrdb`;
 

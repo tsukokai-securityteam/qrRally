@@ -7,3 +7,4 @@ container_data/letsencrypt
 container_data/nginxconf
 renew.sh
 container_data/srvscript/srvrenew.sh
+autostage.sh

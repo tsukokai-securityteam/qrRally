@@ -18,6 +18,6 @@ services:
       - ./apiserver:/apiserver
       - ./webpage:/webpage
     environment:
-      MYSQL_ROOT_PASSWORD: apiserverDBroot@setagaya
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       TZ: Asia/Tokyo
     working_dir: /apiserver

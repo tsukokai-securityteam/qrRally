@@ -1,11 +1,11 @@
 {
   "mysql": {
-    "host": "localhost",
-    "port": "3306",
-    "user": "qruser",
-    "password": "apiserverDB@qruser",
-    "database": "qrdb",
-    "table": "userdata"
+    "host": "",
+    "port": "",
+    "user": "",
+    "password": "",
+    "database": "",
+    "table": ""
   },
   "certificate_file": {
     "key": "",
